@@ -1,0 +1,15 @@
+GET http://localhost:8000/subscribers
+
+###
+
+GET http://localhost:8000/subscribers/6198968cfc84990a8edfff10
+
+
+###
+POST http://localhost:8000/subscribers
+Content-Type: application/json
+
+{
+    "name" : "MY Name",
+    "subscribedToChannel" : "Channel Name"
+}
