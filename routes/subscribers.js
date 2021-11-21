@@ -14,7 +14,6 @@ router.get('/', async (req, res) => {
 });
 
 //subscriber by id
-
 router.get('/:id', getSubscriber, async(req, res) => {
     res.json(res.subscriber);
 })
@@ -31,8 +30,35 @@ router.post('/', async(req, res) => {
         res.status(400).json({message: err.message})
     }
 });
+//delete subscriber by id
+router.delete('/:id', getSubscriber, async (req, res) => {
+    try{
+        await res.subscriber.remove();
+        res.json({message: 'Deleted Subscriber'})
+    }
+    catch(err){
+        res.status(500).json({message: err.message})
+    }
+
+})
 
 
+//PATCH subscriber by id
+router.patch('/:id', getSubscriber, async(req, res) => {
+    if(req.body.name != null){
+        res.subscriber.name = req.body.name;
+    }
+    if(req.body.subscribedToChannel !=  null){
+        res.subscriber.subscribedToChannel = req.body.subscribedToChannel;
+    }
+    try{
+        const updatedSubscriber = await res.subscriber.save();
+        res.json(updatedSubscriber);
+    }
+    catch(err){
+        res.status(400).json({message: err.message})
+    }
+})
 async function getSubscriber(req, res, next){
     let subscriber;
     try {
